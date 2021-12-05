@@ -1,0 +1,65 @@
+from tkinter import *
+def calc ():
+    ves_get = ves.get()
+    rost_get = rost.get()
+    rost_get = int(rost_get)
+    ves_get = int(ves_get)
+    h = rost_get / 100
+    bmi = round((ves_get / (h ** 2)), 1)
+    vivod.delete(0, END)
+    vivod.insert(0, bmi)
+
+def show_menu(e):
+    w = e.widget
+    the_menu.entryconfigure("Вырезать",
+                            command=lambda: w.event_generate("<<Cut>>"))
+    the_menu.entryconfigure("Копировать",
+                            command=lambda: w.event_generate("<<Copy>>"))
+    the_menu.entryconfigure("Вставить",
+                            command=lambda: w.event_generate("<<Paste>>"))
+    the_menu.tk.call("tk_popup", the_menu, e.x_root, e.y_root)
+
+window = Tk()
+window.title("IMB Calc")
+window.geometry('450x300')
+window.resizable(width=False, height=False)
+window.config(bg="#fcfbb1")
+make_menu(window)
+
+nazv = Label(window, text="Калькулятор ИМТ", font="Gabriola 20", bg="#fcfbb1")
+nazv.place(x=140, y=1)
+
+lbl_sov = Label(window, text="Укажите ваш вес и рост в соответствующих окошках ниже.", font="Gabriola 15", bg="#fcfbb1")
+lbl_sov.place(x=4, y=40)
+
+lbl_ves = Label(window, text="Вес", font="Gabriola 20", bg="#fcfbb1")
+lbl_ves.place(x=40, y=70)
+
+lbl_rost = Label(window, text="Рост", font="Gabriola 20", bg="#fcfbb1")
+lbl_rost.place(x=230, y=70)
+
+lbl_vivod = Label(window, text="Вывод", font="Gabriola 20", bg="#fcfbb1")
+lbl_vivod.place(x=40, y=170)
+
+lbl_sov = Label(window, text="Если результат не появляется, перепроверьте,  правильно ли указан \nрост и вес, одним числом, в см и кг соответственно.", font="Gabriola 13", bg="#fcfbb1")
+lbl_sov.place(x=4, y=220)
+
+ves = Entry(window, width=15, bg="#FCFCEE")
+ves.place(x=100, y=90)
+
+rost = Entry(window, width=15, bg="#FCFCEE")
+rost.place(x=310, y=90)
+
+vivod = Entry(window, width=40, bg="#FCFCEE")
+vivod.place(x=120, y=190)
+
+btn_en = Button(window, width=15, font="Gabriola 13", text="Зашифровать", bg="#e6da77", command=calc)
+btn_en.place(x=170, y=120)
+
+ves.bind_class("Entry", "<Button-3><ButtonRelease-3>", show_menu)
+
+rost.bind_class("Entry", "<Button-3><ButtonRelease-3>", show_menu)
+
+vivod.bind_class("Entry", "<Button-3><ButtonRelease-3>", show_menu)
+
+window.mainloop()
